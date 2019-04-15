@@ -14,7 +14,33 @@ type person struct {
 func main() {
 	log.SetFlags(log.Lshortfile)
 
-	action.CacheStruct(person{})
+	s := `{
+"Person":{
+},
+  "[]": {
+	"page":2,
+	"count":10,
+	"join": "&/User/id@,</Comment/momentId@",
+    "Moment":{
+        "@column":"id,date,userId",
+        "id":12
+      },
+    "User":{
+      "id@":"/Moment/userId",
+      "@column":"id,name"
+    }
+  }
+}`
+	r, err := action.ParseJsonRequest([]byte(s))
+	if err != nil {
+		log.Println(err)
+		return
+	}
 
-	log.Println(action.TableJsonStructMap)
+	err = action.ParseTableName(r)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
 }
